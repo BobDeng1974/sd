@@ -30,7 +30,7 @@ Java_com_ut_sdk_DmsInfoGetter_FindFeatures2(JNIEnv *jniEnv, jobject obj,
     jintArray re1;
     jint *index2;
     if (totalFlow != nullptr) {
-        totalFlow->Run(*(Mat *) copyMat, *result);
+        totalFlow->Run(*(Mat *)copyMat, *result);
         std::string showFaceid = "name : ";
         std::string distration = "dis  : ";
         std::string fatigue = "fat  : ";
@@ -52,7 +52,7 @@ Java_com_ut_sdk_DmsInfoGetter_FindFeatures2(JNIEnv *jniEnv, jobject obj,
         call = result->phone();
         smoke = result->smoking();
         dis = false;
-        if(result->distraction() != DISTRACTION_TYPE::NORMAL)
+        if(caliDone && result->distraction() != DISTRACTION_TYPE::NORMAL)
             dis = true;
 
 //        LOGE(" dis --  %d, yawn-- %d ; doze-- %d; phone -- %d ; smoke -- %d",dis, yawn,doze,call,smoke);
@@ -80,9 +80,7 @@ JNIEXPORT void JNICALL
 Java_com_ut_sdk_DmsInfoGetter_FindFeatures(JNIEnv *jniEnv, jobject obj,
                                                                jlong addrGray, jint index) {
     if (totalFlow == nullptr) {
-        totalFlow = new TotalFlow("/sdcard/Android/data/com.ut.sdk/files");
-        string path = "/storage/sdcard1/img"+ to_string(index) + "/";
-
+        totalFlow = new TotalFlow("/sdcard/untouch/model");
 
         result = new Result();
 //        newMat = new Mat();

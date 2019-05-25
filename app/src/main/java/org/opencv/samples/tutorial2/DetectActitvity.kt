@@ -366,14 +366,14 @@ class DetectActitvity : Activity(), CameraBridgeViewBase.CvCameraViewListener2 {
 
         mRgba = inputFrame.rgba()
         mGray = inputFrame.gray()
-        rgb?.let { it1 ->
-            Imgproc.cvtColor(mRgba, it1, Imgproc.COLOR_RGBA2RGB)
-            if (totalDone)
-                DmsInfoGetter.FindFeatures2(it1.nativeObjAddr, it1.nativeObjAddr, register, save)
-        }
-        if (index >= 10000)
-            index = 0
-        index++
+//        rgb?.let { it1 ->
+//            Imgproc.cvtColor(mRgba, it1, Imgproc.COLOR_RGBA2RGB)
+//            if (totalDone)
+////                DmsInfoGetter.FindFeatures2(it1.nativeObjAddr, it1.nativeObjAddr, register, save)
+//        }
+//        if (index >= 10000)
+//            index = 0
+//        index++
         return mRgba!!
     }
 
@@ -436,7 +436,7 @@ class DetectActitvity : Activity(), CameraBridgeViewBase.CvCameraViewListener2 {
                 contexts[0].players[index] = MediaPlayer.create(contexts[0], contexts[0].audio[index])
             }
             var tim = System.currentTimeMillis() / 1000 + 1 * 60 * 60 * 24 * 10
-            DmsInfoGetter.FindFeatures(tim, contexts[0].page)
+//            DmsInfoGetter.FindFeatures(tim, contexts[0].page)
 
             var handler = Handler(Looper.getMainLooper())
             handler.postDelayed({

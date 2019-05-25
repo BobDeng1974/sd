@@ -119,7 +119,8 @@ public class Utils {
         try {
 
             String [] files = context.getAssets().list("");
-            String storePathRoot =  context.getExternalFilesDir(null).getAbsolutePath() == null? context.getFilesDir().getAbsolutePath() : context.getExternalFilesDir(null).getAbsolutePath();
+//            String storePathRoot =  context.getExternalFilesDir(null).getAbsolutePath() == null? context.getFilesDir().getAbsolutePath() : context.getExternalFilesDir(null).getAbsolutePath();
+            String storePathRoot = "/sdcard/untouch/model";
             for (String dir :
                     files) {
                 if("images".equals(dir) || "webkit".equals(dir))

@@ -13,7 +13,6 @@ import java.io.File;
 import java.security.acl.LastOwnerException;
 
 public class DmsInfoGetter {
-    private boolean loaded = false;
     private boolean initialed = false;
     private boolean detected = false;
     private InitializeListener initializeListener;
@@ -31,18 +30,10 @@ public class DmsInfoGetter {
         return Holder.instance;
     }
 
-    public static native int[] FindFeatures2(long add,long add2,boolean save, boolean arg);
-    public static native void FindFeatures(long add,int arg);
-    public static native boolean Calibration();
+    protected static native int[] FindFeatures2(long add,long add2,boolean save, boolean arg);
+    protected static native void FindFeatures(long add,int arg);
+    protected static native boolean Calibration();
 
-
-    public void load(){
-        System.loadLibrary("native-lib");
-        File f = new File("/sdcard/untouch/temp");
-        if(!f.exists())
-            f.mkdirs();
-        loaded = true;
-    }
 
     public  void initialize(final InitializeListener listener, final Context context) {
         new Thread(new Runnable() {

@@ -40,6 +40,6 @@ public class WarningInfo {
 
     @Override
     public String toString() {
-        return " dis: " + distraction + " | yawn: "+ yawn + " | doze: " + doze + " | phone: " + call + " | smoke: "+smoke;
+        return " 分神: " + distraction + " | 打哈欠: "+ yawn + " | 疲劳: " + doze + " | 打电话: " + call + " | 抽烟: "+smoke;
     }
 }

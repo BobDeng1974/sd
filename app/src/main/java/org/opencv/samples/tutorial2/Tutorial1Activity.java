@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.ut.sdk.DetectListner;
 import com.ut.sdk.DmsInfoGetter;
 import com.ut.sdk.InitializeListener;
 import com.ut.sdk.R;
 import com.ut.sdk.WarningInfo;
+import com.ut.sdk.exceptions.CalibrationBeforeDetectException;
 import com.ut.sdk.exceptions.DetectListnerNotFoundException;
 
 import org.opencv.android.BaseLoaderCallback;
@@ -29,6 +31,7 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
 
     private Mat source;
     private Mat conerted;
+    private TextView result;
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -37,9 +40,8 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
                 case LoaderCallbackInterface.SUCCESS:
                 {
                     mOpenCvCameraView.enableView();
-//                    DmsInfoGetter.getInstance().load();//第一步，首先load库
 
-                    //第二步，初始化算法，之后在opencv的摄像头获取数据回掉中操作检测工作
+                    //第1步，初始化算法，之后在opencv的摄像头获取数据回掉中操作检测工作
                         DmsInfoGetter.getInstance().initialize(new InitializeListener() {
                             @Override
                             public void onSuccess() {
@@ -51,12 +53,13 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
                             }
                         },mAppContext);
 
-                    //第一步，首先load库
+                    //第2步，设置检测的回调接口
                     DmsInfoGetter.getInstance().setDetectListner(new DetectListner() {
                         @Override
                         public void onDetect(WarningInfo warningInfo) {
                             Log.e(" warning info :", warningInfo.toString());
                             boolean isCall = warningInfo.isCall();
+                            runOnUiThread(() -> result.setText(warningInfo.toString()));
                             //各种状态实时更新，检测到的各种状态为：
                             // isDistraction：分神；  yawn：打哈欠； doze：疲劳； call：打电话； smoke：吸烟
                         }
@@ -85,6 +88,14 @@ public class Tutorial1Activity extends Activity implements CvCameraViewListener2
         mOpenCvCameraView.setCvCameraViewListener(this);
         mOpenCvCameraView.setCameraIndex(1);
         mOpenCvCameraView.setMaxFrameSize(640,480);
+        result = findViewById(R.id.result);
+        findViewById(R.id.calibrate).setOnClickListener((view)->{
+            try {
+                DmsInfoGetter.getInstance().calibriation();//不进行校准的时候，分神检测不会触发。
+            } catch (CalibrationBeforeDetectException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
